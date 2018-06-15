@@ -8,11 +8,11 @@
     {{ session()->get('flash') }}
   @endif
 
-  <form class="" action="/login" method="post">
+  <form class="form-inline" action="/login" method="post">
       {{ csrf_field() }}
-      <input type="email" name="email" value="Email">
-      <input type="password" name="password" value="Password">
-      <input type="submit" value="Entrar">
+      <input class="form-control"type="email" name="email" value="Email">
+      <input class="form-control"type="password" name="password" value="Password">
+      <input class="form-control btn btn-primary"type="submit" value="Entrar">
   </form>
 
 
