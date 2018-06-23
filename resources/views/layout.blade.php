@@ -34,28 +34,30 @@
                  <a class="nav-link" href="/login">Login</a>
               </li>
             @else()
-              <li class="nav-item {{ activeMenu('mensajes') }}">
-                <a class="nav-link" href="{{ route('mensajes.index') }}">Mensajes</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/logout">Cerrar Session de  {{ auth()->user()->name }}</a>
-              </li>
+            <li class="nav-item {{ activeMenu('mensajes') }}">
+              <a class="nav-link" href="{{ route('mensajes.index') }}">Mensajes</a>
+            </li>
+
+            <li class="nav-item {{ activeMenu('usuarios') }}">
+              <a class="nav-link" href="{{ route('usuarios.index') }}">Usuarios</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Cerrar Sessions
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/logout"> {{ auth()->user()->name }}</a>
+              </div>
+            </li>
+
+
             @endif
 
 
 
 
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </li>
+
 
 
           </ul>
