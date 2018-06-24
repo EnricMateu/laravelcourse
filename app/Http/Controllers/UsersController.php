@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateUserRequest;
 
 class UsersController extends Controller
 {
+
+    public function __construct()
+    {
+      $this->middleware('auth',['except' => ['show']]);
+      $this->middleware('roles:admin',['except' => ['edit','update','show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +23,7 @@ class UsersController extends Controller
     {
         $users = \App\User::all();
 
-        return view('user.index',compact('users'));
+        return view('users.index',compact('users'));
     }
 
     /**
@@ -47,7 +55,9 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return view('users.show',compact('user'));
     }
 
     /**
@@ -58,7 +68,12 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        //dd(auth()->user());
+        $this->authorize('edit',$user);
+
+        return view('users.edit',compact('user'));
     }
 
     /**
@@ -68,9 +83,15 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $this->authorize('update',$user);
+
+        $user->update($request->all());
+
+        return back()->with('info', 'Usuario Actualizado');
     }
 
     /**
@@ -81,6 +102,12 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $user = User::findOrFail($id);
+
+      $this->authorize('destroy',$user);
+
+      $user->delete();
+
+      return back()->with('info', 'Usuario Eliminado');
     }
 }

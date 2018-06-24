@@ -23,7 +23,6 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        // $messages = DB::table('messages')->get();
         $messages = Message::all();
         return view('messages.index',compact('messages'));
     }
@@ -56,8 +55,15 @@ class MessagesController extends Controller
         //   'updated_at' => Carbon::now(),
         // ]);
 
-        Message::create($request->all());
-        return redirect(route('mensajes.create'));
+        //dd($request->all());
+        $message = Message::create($request->all());
+
+
+        if(auth()->check()){
+          auth()->user()->messages()->save($message);
+        }
+
+        return redirect()->route('mensajes.index')->with('flash','Mensaje Creado');
     }
 
     /**

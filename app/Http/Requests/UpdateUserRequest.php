@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateMessageRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class CreateMessageRequest extends FormRequest
     public function rules()
     {
         return [
-
-          'mensaje' => 'required|min:5'
+            'name'  => 'required',
+            'email' => 'required|unique:users,email,' . $this->route('usuario')
         ];
     }
 }

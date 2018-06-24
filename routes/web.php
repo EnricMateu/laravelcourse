@@ -5,7 +5,7 @@ Route::get('create_admin',function(){
   $user->name     = 'Servio';
   $user->email    = 'servio.za@gmail.com';
   $user->password = bcrypt('123456');
-  $user->role     = 'admin';
+  $user->role_id     = 1;
   $user->save();
 
   return $user;
@@ -16,10 +16,26 @@ Route::get('create_moderador',function(){
   $user->name     = 'Virginia';
   $user->email    = 'virginialabarca92@gmail.com';
   $user->password = bcrypt('123456');
-  $user->role     = 'moderador';
+  $user->role_id     = 2;
   $user->save();
 
   return $user;
+});
+
+Route::get('create_estudiante',function(){
+  $user = new App\User;
+  $user->name     = 'Servio Zambrano';
+  $user->email    = 'serviozambrano@gmail.com';
+  $user->password = bcrypt('123456');
+  $user->role     = 'estudiante';
+  $user->save();
+
+  return $user;
+});
+
+Route::get('roles',function(){
+  //return \App\Role::all();
+  return \App\Role::with('user')->get();
 });
 
 $home = [
