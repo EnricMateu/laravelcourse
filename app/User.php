@@ -18,6 +18,12 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
+
+    public function setPasswordAttribute($password)
+    {
+      $this->attributes['password'] = bcrypt($password);
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -55,5 +61,15 @@ class User extends Authenticatable
     public function messages()
     {
       return $this->hasMany(Message::class);
+    }
+
+    public function note()
+    {
+      return $this->morphOne(Note::class,'notable');
+    }
+
+    public function tags()
+    {
+      return $this->morphToMany(Tag::class,'taggable')->withTimestamps();
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAssignedRolesTable extends Migration
+class CrateTaggablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateAssignedRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('assigned_roles', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            $table->integer('role_id')->unsigned();
+        Schema::create('taggables', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('tag_id')->unsigned();
+            $table->integer('taggable_id');
+            $table->string('taggable_type');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +29,6 @@ class CreateAssignedRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assigned_roles');
+        Schema::dropIfExists('taggables');
     }
 }

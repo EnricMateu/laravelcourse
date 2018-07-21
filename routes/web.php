@@ -1,12 +1,16 @@
 <?php
 
+// DB::listen(function($query){
+//   echo "<pre> {$query->sql} </pre>";
+// });
 Route::get('create_admin',function(){
   $user = new App\User;
   $user->name     = 'Servio';
-  $user->email    = 'servio.za@gmail.com';
-  $user->password = bcrypt('123456');
-  $user->role_id     = 1;
+  $user->email    = 'servio@gmail.com';
+  $user->password = 123456;
   $user->save();
+
+  $user->roles()->attach([1]);
 
   return $user;
 });

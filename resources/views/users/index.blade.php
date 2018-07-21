@@ -2,6 +2,7 @@
 
 @section('content')
   <h1>Usuarios</h1>
+  <a class="btn btn-primary" href="{{ route('usuarios.create')}}">Crear nuevo usuario</a>
 
   <table class="table">
     <thead>
@@ -10,6 +11,8 @@
         <th>Nombre</th>
         <th>Email</th>
         <th>Role</th>
+        <th>Notas</th>
+        <th>Tags</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -23,16 +26,18 @@
         @foreach ($user->roles as $role)
           <td>{{ $role->display_name }}</td>
         @endforeach
-        <td></td>
+        <td> {{$user->tags->pluck('name')->implode(',')}}</td>
+        <td> {{$user->note->body or 'Sin nota'}}</td>
+        <td>
+          <a class="btn btn-info btn-xs" href="{{ route('usuarios.edit',$user->id)}}"> Edit </a>
+          <form class="" action="{{ route('usuarios.destroy',$user->id) }}" method="post">
+            {{ method_field('delete') }}
+            {{ csrf_field() }}
+            <button class="btn btn-danger btn-xs" type="submit" name="button">Eliminar</button>
+          </form>
+        </td>
       </tr>
-      <td>
-        <a class="btn btn-info btn-xs" href="{{ route('usuarios.edit',$user->id)}}"> Edit </a>
-        <form class="" action="{{ route('usuarios.destroy',$user->id) }}" method="post">
-          {{ method_field('delete') }}
-          {{ csrf_field() }}
-          <button class="btn btn-danger btn-xs" type="submit" name="button">Eliminar</button>
-        </form>
-      </td>
+
       @endforeach
     </tbody>
   </table>

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Mail;
 use App\Message;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Events\MessageWasReceived;
 use App\Http\Requests\CreateMessageRequest;
 
 class MessagesController extends Controller
@@ -23,7 +25,10 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        $messages = Message::all();
+        /*Consulta no optimizada:
+        $messages = Message::all()*/;
+        /*Consulta optimizada*/
+        $messages = Message::with(['user','note','tags'])->get();
         return view('messages.index',compact('messages'));
     }
 
@@ -62,6 +67,9 @@ class MessagesController extends Controller
         if(auth()->check()){
           auth()->user()->messages()->save($message);
         }
+
+        event(new MessageWasReceived($message));
+
 
         return redirect()->route('mensajes.index')->with('flash','Mensaje Creado');
     }
